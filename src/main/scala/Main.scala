@@ -1,7 +1,6 @@
-@main def hello: Unit = {
-  println("Hello world!")
-  println(msg)
+@main def main(str: String): Unit = {
+
+  println(hash(str))
+
 }
-  
-def msg = "I was compiled by Scala 3. :)"
 

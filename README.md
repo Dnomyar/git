@@ -52,7 +52,7 @@ Useful git commands:
 - generated project `sbt new scala/scala3.g8`
 - hash a blob
   - What is a blob? 
-    - SHA1 of file with a prefix "blob <size of the file>\0<content>"
+    - SHA1 of file with a prefix `blob <content_size>\0<content>`
     - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
     - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
