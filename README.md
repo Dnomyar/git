@@ -1,8 +1,56 @@
-## sbt project compiled with Scala 3
+# Git implementation
 
-### Usage
+## Objectives
 
-This is a normal sbt project. You can compile code with `sbt compile`, run it with `sbt run`, and `sbt console` will start a Scala 3 REPL.
+Main objective: having an interoperable git implementation with a subset of the features of git
 
-For more information on the sbt-dotty plugin, see the
-[scala3-example-project](https://github.com/scala/scala3-example-project/blob/main/README.md).
+Secondary objectives:
+- Learn how git works in depth
+- Try Scala3
+- Work with hexagonal architecture
+- Have a rich domain model 
+
+## Chapters
+
+### Chapter 1: Git objects
+
+#### Git internals: Objects
+
+Source: https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain 
+
+Git uses the concept of _Object_. There 3 types of object:
+- **blobs**. A blob basically represents the content of a file. It is stored in a file named after the hash of the content.   
+- **trees**. Trees are used to represent the hierarchy between blobs. A tree contains blobs and other trees with their names. For instance :
+```
+100644 blob dc711f442241823069c499197accce1537f30928    .gitignore
+100644 blob e5d351c3cd44aa1d8c1cb967c7e7fde1dee4b0ad    README.md
+100644 blob 7a010b786eb29b895ba5799306052b996516d63b    build.sbt
+040000 tree 8bac5f27882165d313f5732bb4f140003156c693    project
+040000 tree 163727ec9bd17ef32ee088a52a31fe0b483fa18f    src
+```
+- **commits**. Commits are used to capture :
+    - the `tree` snapshot of the code
+    - the `parent(s)` commits. Usually a commit has only one parent, but it can have 0 to n parents. The first commit does not have any parent. A merge commit has several parents (usually 2). 
+    - the `author`
+    - the `commiter` 
+    - a blank line
+    - the commit `message`
+
+Those files are stored in `.git/objects`.
+
+Useful git commands:
+- `git cat-file` show information about an object
+    - `-p <hash>` show the content of an object. `hash` can be `master^{tree}` to reference the tree object pointed to the last version of master.
+    - `-t <hash>` show the type of object
+- `git hash-object` (explicit)
+- `git update-index` Register file contents in the working tree to the index
+- `git write-tree` 
+
+
+
+
+#### Episode 1: Setup 
+- motivations and presentation of the objectives
+- application architecture
+- hash a blob
+
