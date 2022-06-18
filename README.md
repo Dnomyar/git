@@ -1,14 +1,12 @@
 # Git implementation
+Implementation of a subset of git features
 
 ## Objectives
-
-Main objective: having an interoperable git implementation with a subset of the features of git
-
-Secondary objectives:
 - Learn how git works in depth
 - Try Scala3
 - Work with hexagonal architecture
-- Have a rich domain model 
+- Try to integrate practices and patterns from DDD 
+- (double loop) TDD approach
 
 ## Chapters
 
@@ -49,8 +47,12 @@ Useful git commands:
 
 
 
-#### Episode 1: Setup 
+#### Episode 1: Hash a blob
 - motivations and presentation of the objectives
-- application architecture
+- generated project `sbt new scala/scala3.g8`
 - hash a blob
+  - What is a blob? 
+    - SHA1 of file with a prefix "blob <size of the file>\0<content>"
+    - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
+    - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
