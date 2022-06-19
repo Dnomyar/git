@@ -12,7 +12,20 @@ Implementation of a subset of git features
 
 ### Chapter 1: Git objects
 
-#### Git internals: Objects
+
+#### Episode 1: Primitive Blob Hashing
+- motivations and presentation of the objectives
+- generated project `sbt new scala/scala3.g8`
+- hash a blob
+  - What is a blob? 
+    - SHA1 of file with a prefix `blob <content_size>\0<content>`
+    - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
+    - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
+
+
+
+## Git internals
+### Objects
 
 Source: https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain 
 
@@ -43,16 +56,4 @@ Useful git commands:
 - `git hash-object` (explicit)
 - `git update-index` Register file contents in the working tree to the index
 - `git write-tree` 
-
-
-
-
-#### Episode 1: Hash a blob
-- motivations and presentation of the objectives
-- generated project `sbt new scala/scala3.g8`
-- hash a blob
-  - What is a blob? 
-    - SHA1 of file with a prefix `blob <content_size>\0<content>`
-    - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
-    - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 

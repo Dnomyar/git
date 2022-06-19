@@ -4,3 +4,4 @@ target/
 .bsp
 .vscode
 metals.sbt
+.idea
