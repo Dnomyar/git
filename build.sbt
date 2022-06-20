@@ -1,5 +1,8 @@
 val scala3Version = "3.1.2"
 
+val zioVersion = "2.0.0-RC6"
+val scalaTestVersion = "3.2.12"
+
 lazy val root = project
   .in(file("."))
   .settings(
@@ -8,6 +11,11 @@ lazy val root = project
 
     scalaVersion := scala3Version,
 
-    libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.12",
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.12" % "test"
+    libraryDependencies += "dev.zio" %% "zio" % zioVersion,
+    libraryDependencies += "dev.zio" %% "zio-test" % zioVersion,
+    libraryDependencies += "dev.zio" %% "zio-streams" % zioVersion,
+    libraryDependencies += "org.scalactic" %% "scalactic" % scalaTestVersion,
+    libraryDependencies += "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+
+    testFrameworks += new TestFramework("zio.test.sbt.ZTestFramework")
   )

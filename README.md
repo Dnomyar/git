@@ -22,6 +22,17 @@ Implementation of a subset of git features
     - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
     - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
+#### Episode 2: Hash a file from the file system
+- refactoring and extension of the code to support other input options (file, write in database, type, etc.)
+  - setup domain and infrastructure packages (hexagonal architecture)
+  - write a test for Main
+  - introducing a `HashObjectCommand`
+- add zio (resource management, streaming, retries, parallelism, etc.)
+- write a test for hashing a file from the file system
+  - large file 
+- implement the feature 
+
+
 
 
 ## Git internals
