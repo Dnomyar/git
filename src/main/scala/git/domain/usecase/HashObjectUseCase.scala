@@ -1,13 +1,14 @@
 package git.domain.usecase
 
 import java.security.MessageDigest
+import zio._
 
 object HashObjectUseCase {
   
   case class HashObjectCommand(strToHash: String)
-  
-  def handleCommand(hashObjectCommand: HashObjectCommand): String = {
-    hash(hashObjectCommand.strToHash)
+
+  def handleCommand(hashObjectCommand: HashObjectCommand): UIO[String] = {
+    ZIO.succeed(hash(hashObjectCommand.strToHash))
   }
 
   private def hash(str: String): String = {

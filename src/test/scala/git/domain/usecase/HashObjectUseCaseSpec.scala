@@ -4,15 +4,20 @@ import git.domain.usecase.HashObjectUseCase
 import git.domain.usecase.HashObjectUseCase._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import zio._
+import zio.test._
+import zio.test.Assertion._
 
-class HashObjectUseCaseSpec extends AnyFlatSpec with Matchers {
+object HashObjectUseCaseSpec extends ZIOSpecDefault {
 
-  behavior of "HashObjectUseCase"
-
-  it should "hash 'test content'" in {
-    HashObjectUseCase.handleCommand(HashObjectCommand(strToHash = "test content")) should be(
-      "08cf6101416f0ce0dda3c80e627f333854c4085c"
+  override def spec =
+    suite("Hash object usecase")(
+      test("hash 'test content'"){
+        for {
+          hash <- HashObjectUseCase.handleCommand(HashObjectCommand(strToHash = "test content"))
+        } yield assert(hash)(equalTo("08cf6101416f0ce0dda3c80e627f333854c4085c"))
+      }
     )
-  }
-
 }
+
+object HashObjectUseCaseSpecProxy extends ZIOApp.Proxy(HashObjectUseCaseSpec)

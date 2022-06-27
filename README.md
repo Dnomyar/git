@@ -29,10 +29,14 @@ Implementation of a subset of git features
   - introducing a `HashObjectCommand`
 
 
+#### Episode 3: Add ZIO with MockConsole 
+- add zio (resource management, streaming, retries, parallelism, etc.)
+
+
+
 
 Next:
 
-- add zio (resource management, streaming, retries, parallelism, etc.)
 - write a test for hashing a file from the file system
   - large file 
 - implement the feature 
