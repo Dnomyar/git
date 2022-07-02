@@ -13,7 +13,7 @@ Implementation of a subset of git features
 ### Chapter 1: Git objects
 
 
-#### Episode 1: Primitive Blob Hashing
+#### [:tv: Episode 1: Primitive Blob Hashing](https://www.youtube.com/watch?v=H7TeRuWEwjs)
 - motivations and presentation of the objectives
 - generated project `sbt new scala/scala3.g8`
 - hash a blob
@@ -22,14 +22,14 @@ Implementation of a subset of git features
     - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
     - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
-#### Episode 2: Refactoring to use hexagonal architecture and introduce concepts like Command and UseCase
+#### [:tv: Episode 2: Refactoring to use hexagonal architecture and introduce concepts like Command and UseCase](https://www.youtube.com/watch?v=-mUwDbTbPbA)
 - refactoring and extension of the code to support other input options (file, write in database, type, etc.)
   - setup domain and infrastructure packages (hexagonal architecture)
   - write a test for Main
   - introducing a `HashObjectCommand`
 
 
-#### Episode 3: Add ZIO with MockConsole 
+#### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=Apczw_C_6D8) 
 - add zio (resource management, streaming, retries, parallelism, etc.)
 
 
