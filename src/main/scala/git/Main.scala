@@ -15,7 +15,11 @@ object Main extends ZIOAppDefault {
 
   def program(args: Chunk[String]) = for {
     console <- ZIO.service[Console]
-    hash <- HashObjectUseCase.handleCommand(HashObjectCommand(args.head))
+    hash <- args.toList match {
+      case "--text" :: text :: Nil =>
+        HashObjectUseCase.handleCommand(HashObjectCommand(text))
+      case _ => ???
+    }
     _ <- console.printLine(hash)
   } yield ()
 }

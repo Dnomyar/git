@@ -34,7 +34,7 @@ object MainSpec extends ZIOSpecDefault {
       test("print the hash of the string parameter 'test content'"){
         for {
           recorder <- Ref.make(ConsoleRecorder(Chunk.empty))
-          _ <- Main.program(Chunk("test content")).provide(provideMockConsole(recorder))
+          _ <- Main.program(Chunk("--text", "test content")).provide(provideMockConsole(recorder))
           recorded <- recorder.get
         } yield assert(recorded.printedLines)(equalTo(Chunk(
           "08cf6101416f0ce0dda3c80e627f333854c4085c"

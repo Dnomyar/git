@@ -10,8 +10,7 @@ Implementation of a subset of git features
 
 ## Chapters
 
-### Chapter 1: Git objects
-
+### Chapter 1: Making a commit
 
 #### [:tv: Episode 1: Primitive Blob Hashing](https://www.youtube.com/watch?v=H7TeRuWEwjs)
 - motivations and presentation of the objectives
@@ -28,18 +27,21 @@ Implementation of a subset of git features
   - write a test for Main
   - introducing a `HashObjectCommand`
 
-
 #### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=Apczw_C_6D8) 
 - add zio (resource management, streaming, retries, parallelism, etc.)
 
-
+#### [:tv: Episode 4: Blob hashing from working directory]()
+- objective of the chapter: making a commit
+- hash stdin string - change the way the command is used: 
+  - `hash-object --text "test content"` instead of `hash-object "test content"`
+- hash a file `hash-object <file>...`
 
 
 Next:
+- write a blob in git objects directory
+- write a tree in git object directory
+- write a commit (with a tree hash provided)
 
-- write a test for hashing a file from the file system
-  - large file 
-- implement the feature 
 
 
 
@@ -76,4 +78,14 @@ Useful git commands:
 - `git hash-object` (explicit)
 - `git update-index` Register file contents in the working tree to the index
 - `git write-tree` 
+- `git ls-files`
+  - `--stage` or `-s` show all files tracked
 
+
+
+
+### Useful links:
+- https://git-scm.com/book/sv/v2/Git-Internals-Git-Objects
+- https://stackoverflow.com/questions/4084921/what-does-the-git-index-contain-exactly
+- https://git-scm.com/docs/gitglossary
+- https://github.com/git/git/blob/master/Documentation/technical/index-format.txt
