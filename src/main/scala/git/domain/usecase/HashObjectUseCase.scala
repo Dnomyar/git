@@ -2,27 +2,38 @@ package git.domain.usecase
 
 import java.security.MessageDigest
 import zio._
+import zio.stream.*
 
 object HashObjectUseCase {
-  
+
   case class HashObjectCommand(strToHash: String)
 
-  def handleCommand(hashObjectCommand: HashObjectCommand): UIO[String] = {
-    ZIO.succeed(hash(hashObjectCommand.strToHash))
+  private val encoding = "UTF-8"
+
+  def handleCommand(hashObjectCommand: HashObjectCommand): Task[String] = {
+    val byteStream: ZStream[Any, Throwable, Byte] = ZStream.fromIterable(hashObjectCommand.strToHash.getBytes(encoding))
+
+    val sha1Sink = for {
+      digest <- ZSink.foldLeftChunks[Byte, MessageDigest](MessageDigest.getInstance("SHA-1")) {
+        case (digest, bytes) =>
+          digest.update(bytes.toArray)
+          digest
+      }
+    } yield digest.digest.map("%02x".format(_)).mkString
+
+    for {
+      numberOfBytes <- byteStream.run(ZSink.count)
+      hash <-
+        ZStream.fromIterable(providePrefixBytes(numberOfBytes))
+          .concat(byteStream)
+          .run(sha1Sink)
+    } yield hash
   }
 
-  private def hash(str: String): String = {
+  private def providePrefixBytes(length: Long) = {
     val zeroByte = '\u0000'
-    sha1(s"blob ${str.length}${zeroByte}${str}")
-  }
 
-  private def sha1(str: String): String = {
-    val encoding = "UTF-8"
-    val digest = MessageDigest.getInstance("SHA-1")
-
-    digest.reset()
-    digest.update(str.getBytes(encoding))
-    digest.digest.map("%02x".format(_)).mkString
+    s"blob $length$zeroByte".getBytes(encoding)
   }
 
 }

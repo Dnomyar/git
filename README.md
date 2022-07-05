@@ -30,14 +30,16 @@ Implementation of a subset of git features
 #### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=Apczw_C_6D8) 
 - add zio (resource management, streaming, retries, parallelism, etc.)
 
-#### [:tv: Episode 4: Blob hashing from working directory]()
+#### [:tv: Episode 4: Hashing a stream of bytes (ZStream)](https://www.youtube.com/watch?v=zGlhkJkn2LM)
 - objective of the chapter: making a commit
 - hash stdin string - change the way the command is used: 
   - `hash-object --text "test content"` instead of `hash-object "test content"`
-- hash a file `hash-object <file>...`
+- Fix the encoding issue
+- Hashing a stream of bytes (ZStream and ZSink)
 
 
 Next:
+- hash a file `hash-object <file>...`
 - write a blob in git objects directory
 - write a tree in git object directory
 - write a commit (with a tree hash provided)
