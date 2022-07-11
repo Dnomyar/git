@@ -37,9 +37,14 @@ Implementation of a subset of git features
 - Fix the encoding issue
 - Hashing a stream of bytes (ZStream and ZSink)
 
+#### [:tv: Episode 5: Hash a file]()
+- refactor `HashObjectUseCase`
+- hash a file `hash-object <file>...`
+  - integrate the concept of "response"
+  - new command 
+
 
 Next:
-- hash a file `hash-object <file>...`
 - write a blob in git objects directory
 - write a tree in git object directory
 - write a commit (with a tree hash provided)

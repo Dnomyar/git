@@ -39,6 +39,19 @@ object MainSpec extends ZIOSpecDefault {
         } yield assert(recorded.printedLines)(equalTo(Chunk(
           "08cf6101416f0ce0dda3c80e627f333854c4085c"
         )))
+      },
+      test("print the hash of a specified file name"){
+        for {
+          recorder <- Ref.make(ConsoleRecorder(Chunk.empty))
+          _ <- Main.program(Chunk(
+            "src/test/resources/hash-object-file1.txt",
+            "src/test/resources/hash-object-file3.txt",
+          )).provide(provideMockConsole(recorder))
+          recorded <- recorder.get
+        } yield assert(recorded.printedLines)(equalTo(Chunk(
+          "e4515249a870dd1c983f41425d88b496b80daf62",
+          "8f0d852d3717afbe31bb13f5c1e77df81bbc3e6e"
+        )))
       }
     )
 

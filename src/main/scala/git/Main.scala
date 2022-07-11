@@ -17,9 +17,10 @@ object Main extends ZIOAppDefault {
     console <- ZIO.service[Console]
     hash <- args.toList match {
       case "--text" :: text :: Nil =>
-        HashObjectUseCase.handleCommand(HashObjectCommand(text))
-      case _ => ???
+        HashObjectUseCase.handleCommand(HashObjectCommand.HashText(text))
+      case filenames =>
+        HashObjectUseCase.handleCommand(HashObjectCommand.HashFile(filenames))
     }
-    _ <- console.printLine(hash)
+    _ <- ZIO.foreach(hash.hash)(console.printLine(_))
   } yield ()
 }
