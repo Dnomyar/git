@@ -38,12 +38,10 @@ Implementation of a subset of git features
 - Hashing a stream of bytes (ZStream and ZSink)
 
 #### [:tv: Episode 5: Hash files](https://www.youtube.com/watch?v=sVC7-f8UgJ4)
-- Extract sha1 sink
 - Write test to hash a file
-- Allow multiple types of command
+- Refactor so the hash object usecase accepts several types of command 
 - Implement hashing a file
-- How git hashes several files
-- Creating a case class Result
+- Model the return type of the usecase with a richer type
 - Update test to hash several files and implement
 
 
