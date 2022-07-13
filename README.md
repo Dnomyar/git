@@ -37,11 +37,14 @@ Implementation of a subset of git features
 - Fix the encoding issue
 - Hashing a stream of bytes (ZStream and ZSink)
 
-#### [:tv: Episode 5: Hash a file]()
-- refactor `HashObjectUseCase`
-- hash a file `hash-object <file>...`
-  - integrate the concept of "response"
-  - new command 
+#### [:tv: Episode 5: Hash files](https://www.youtube.com/watch?v=sVC7-f8UgJ4)
+- Extract sha1 sink
+- Write test to hash a file
+- Allow multiple types of command
+- Implement hashing a file
+- How git hashes several files
+- Creating a case class Result
+- Update test to hash several files and implement
 
 
 Next:
