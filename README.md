@@ -4,7 +4,7 @@ Implementation of a subset of git features
 ## Objectives
 - Learn how git works in depth
 - Try Scala3
-- Work with hexagonal architecture
+- Have several loosely-coupled interchangeable components thanks to hexagonal architecture
 - Try to integrate practices and patterns from DDD 
 - (double loop) TDD approach
 
@@ -45,10 +45,15 @@ Implementation of a subset of git features
 - Update test to hash several files and implement
 
 
+### [:tv: Episode 6: Refactor to introduce FileSystemPort and Adapter using ZLayer]()
+- [Refactor/hexagonal arch.] extract reading a file and have the implementation in the infrastructure package.
+  - problem in the hash object usecase
+  - fixing the problem
+
 Next:
-- write a blob in git objects directory
-- write a tree in git object directory
-- write a commit (with a tree hash provided)
+- [Business Logic] write a blob in git objects directory
+- [Business Logic] write a tree in git object directory
+- [Business Logic] write a commit (with a tree hash provided)
 
 
 
@@ -97,3 +102,4 @@ Useful git commands:
 - https://stackoverflow.com/questions/4084921/what-does-the-git-index-contain-exactly
 - https://git-scm.com/docs/gitglossary
 - https://github.com/git/git/blob/master/Documentation/technical/index-format.txt
+- https://git-scm.com/book/en/v2/Git-Internals-Packfiles
