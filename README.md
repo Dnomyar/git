@@ -13,6 +13,7 @@ Implementation of a subset of git features
 ### Chapter 1: Making a commit
 
 #### [:tv: Episode 1: Primitive Blob Hashing](https://www.youtube.com/watch?v=H7TeRuWEwjs)
+[Branch `episode1`](https://github.com/Dnomyar/git/tree/episode1)
 - motivations and presentation of the objectives
 - generated project `sbt new scala/scala3.g8`
 - hash a blob
@@ -22,15 +23,18 @@ Implementation of a subset of git features
     - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
 #### [:tv: Episode 2: Refactoring to use hexagonal architecture and introduce concepts like Command and UseCase](https://www.youtube.com/watch?v=-mUwDbTbPbA)
+[Branch `episode2`](https://github.com/Dnomyar/git/tree/episode2)
 - refactoring and extension of the code to support other input options (file, write in database, type, etc.)
   - setup domain and infrastructure packages (hexagonal architecture)
   - write a test for Main
   - introducing a `HashObjectCommand`
 
 #### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=Apczw_C_6D8) 
+[Branch `episode3`](https://github.com/Dnomyar/git/tree/episode3)
 - add zio (resource management, streaming, retries, parallelism, etc.)
 
 #### [:tv: Episode 4: Hashing a stream of bytes (ZStream)](https://www.youtube.com/watch?v=zGlhkJkn2LM)
+[Branch `episode4`](https://github.com/Dnomyar/git/tree/episode4)
 - objective of the chapter: making a commit
 - hash stdin string - change the way the command is used: 
   - `hash-object --text "test content"` instead of `hash-object "test content"`
@@ -38,6 +42,7 @@ Implementation of a subset of git features
 - Hashing a stream of bytes (ZStream and ZSink)
 
 #### [:tv: Episode 5: Hash files](https://www.youtube.com/watch?v=sVC7-f8UgJ4)
+[Branch `episode5`](https://github.com/Dnomyar/git/tree/episode5)
 - Write test to hash a file
 - Refactor so the hash object usecase accepts several types of command 
 - Implement hashing a file
@@ -45,10 +50,13 @@ Implementation of a subset of git features
 - Update test to hash several files and implement
 
 
-### [:tv: Episode 6: Refactor to introduce FileSystemPort and Adapter using ZLayer]()
+### [:tv: Episode 6: Refactor to introduce FileSystemPort and Adapter using ZLayer](https://www.youtube.com/watch?v=VmFXW04QGIo)
+[Branch `episode6`](https://github.com/Dnomyar/git/tree/episode6)
 - [Refactor/hexagonal arch.] extract reading a file and have the implementation in the infrastructure package.
   - problem in the hash object usecase
   - fixing the problem
+
+![Hexagonal diagram](https://github.com/Dnomyar/git/tree/main/diagram/git-hexagon.png)
 
 Next:
 - [Business Logic] write a blob in git objects directory
