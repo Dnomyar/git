@@ -12,7 +12,7 @@ Implementation of a subset of git features
 
 ### Chapter 1: Making a commit
 
-#### [:tv: Episode 1: Primitive Blob Hashing](https://www.youtube.com/watch?v=H7TeRuWEwjs)
+#### [:tv: Episode 1: Primitive Blob Hashing](https://www.youtube.com/watch?v=gN1Hx3C4N2Q&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=1)
 [Branch `episode1`](https://github.com/Dnomyar/git/tree/episode1)
 - motivations and presentation of the objectives
 - generated project `sbt new scala/scala3.g8`
@@ -22,18 +22,18 @@ Implementation of a subset of git features
     - Hash of a blob: `echo -n 'test content' | git hash-object --stdin`
     - Comparing with sha1 hash of the same string `echo -n 'blob 12\0test content' | shasum -a 1`
 
-#### [:tv: Episode 2: Refactoring to use hexagonal architecture and introduce concepts like Command and UseCase](https://www.youtube.com/watch?v=-mUwDbTbPbA)
+#### [:tv: Episode 2: Refactoring to use hexagonal architecture and introduce concepts like Command and UseCase](https://www.youtube.com/watch?v=wzo06-IVmwk&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=2)
 [Branch `episode2`](https://github.com/Dnomyar/git/tree/episode2)
 - refactoring and extension of the code to support other input options (file, write in database, type, etc.)
   - setup domain and infrastructure packages (hexagonal architecture)
   - write a test for Main
   - introducing a `HashObjectCommand`
 
-#### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=Apczw_C_6D8) 
+#### [:tv: Episode 3: Add ZIO with MockConsole](https://www.youtube.com/watch?v=1V_IYyuluK4&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=3) 
 [Branch `episode3`](https://github.com/Dnomyar/git/tree/episode3)
 - add zio (resource management, streaming, retries, parallelism, etc.)
 
-#### [:tv: Episode 4: Hashing a stream of bytes (ZStream)](https://www.youtube.com/watch?v=zGlhkJkn2LM)
+#### [:tv: Episode 4: Hashing a stream of bytes (ZStream)](https://www.youtube.com/watch?v=F3Jf_YDIwgk&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=4)
 [Branch `episode4`](https://github.com/Dnomyar/git/tree/episode4)
 - objective of the chapter: making a commit
 - hash stdin string - change the way the command is used: 
@@ -41,7 +41,7 @@ Implementation of a subset of git features
 - Fix the encoding issue
 - Hashing a stream of bytes (ZStream and ZSink)
 
-#### [:tv: Episode 5: Hash files](https://www.youtube.com/watch?v=sVC7-f8UgJ4)
+#### [:tv: Episode 5: Hash files](https://www.youtube.com/watch?v=0rWkvwdhUwI&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=5)
 [Branch `episode5`](https://github.com/Dnomyar/git/tree/episode5)
 - Write test to hash a file
 - Refactor so the hash object usecase accepts several types of command 
@@ -50,7 +50,7 @@ Implementation of a subset of git features
 - Update test to hash several files and implement
 
 
-### [:tv: Episode 6: Refactor to introduce FileSystemPort and Adapter using ZLayer](https://www.youtube.com/watch?v=VmFXW04QGIo)
+### [:tv: Episode 6: Refactor to introduce FileSystemPort and Adapter using ZLayer](https://www.youtube.com/watch?v=VW6LnSzKHEI&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=6)
 [Branch `episode6`](https://github.com/Dnomyar/git/tree/episode6)
 - [Refactor/hexagonal arch.] extract reading a file and have the implementation in the infrastructure package.
   - problem in the hash object usecase
