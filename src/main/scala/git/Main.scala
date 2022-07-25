@@ -2,11 +2,12 @@ package git
 
 import git.domain.*
 import git.domain.model.*
+import git.domain.repository.ObjectRepository
 import git.domain.usecase.HashObjectUseCase
-import git.domain.usecase.HashObjectUseCase._
+import git.domain.usecase.HashObjectUseCase.*
 import git.infrastructure.filesystem.FileSystemAdapter
-import zio._
-import zio.Console._
+import zio.*
+import zio.Console.*
 
 object Main extends ZIOAppDefault {
   override def run =
@@ -16,6 +17,7 @@ object Main extends ZIOAppDefault {
         .provide(
           ZLayer.succeed(ConsoleLive),
           FileSystemAdapter.live,
+          ZLayer.succeed[ObjectRepository](???),
           HashObjectUseCase.live
         )
     } yield ()).exitCode
@@ -29,7 +31,7 @@ object Main extends ZIOAppDefault {
       case filenames =>
         hashObjectUsecase.handleCommand(
           HashObjectCommand.HashFile(
-            filenames.map(FileIdentifier)
+            filenames.map(FileIdentifier.apply)
           )
         )
     }

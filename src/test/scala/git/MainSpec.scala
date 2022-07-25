@@ -1,6 +1,7 @@
 package git
 
 import git.domain.port.FileSystemPort
+import git.domain.repository.ObjectRepository
 import git.domain.usecase.HashObjectUseCase
 import git.infrastructure.filesystem.FileSystemAdapter
 import org.scalatest.flatspec.AnyFlatSpec
@@ -59,6 +60,7 @@ object MainSpec extends ZIOSpecDefault {
       }
     ).provide(
       FileSystemAdapter.live,
+      ZLayer.succeed[ObjectRepository](???),
       HashObjectUseCase.live
     )
 

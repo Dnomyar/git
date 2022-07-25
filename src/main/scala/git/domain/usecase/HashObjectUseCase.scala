@@ -4,17 +4,18 @@ import java.security.MessageDigest
 import zio.*
 import zio.stream.{Sink, *}
 import git.domain.*
-import git.domain.model.FileIdentifier
+import git.domain.model.{FileIdentifier, Hash}
 import git.domain.port.FileSystemPort
+import git.domain.repository.ObjectRepository
 
 object HashObjectUseCase {
 
   enum HashObjectCommand {
     case HashText(textToHash: String)
-    case HashFile(filenames: List[FileIdentifier])
+    case HashFile(filenames: List[FileIdentifier], save: Boolean = false)
   }
 
-  case class HashObjectResult(hash: List[String])
+  case class HashObjectResult(hash: List[Hash])
 
   private val encoding = "UTF-8"
 
@@ -24,43 +25,44 @@ object HashObjectUseCase {
     ): Task[HashObjectResult]
   }
 
-  class HashObjectUseCaseImplementation(fileSystemPort: FileSystemPort)
-      extends HashObjectUseCase {
-    override def handleCommand(
-        hashObjectCommand: HashObjectCommand
-    ): Task[HashObjectResult] =
-      hashObjectCommand match {
-        case HashObjectCommand.HashText(textToHash) =>
-          hashByteStream(ZStream.fromIterable(textToHash.getBytes(encoding)))
-            .map(hash => HashObjectResult(List(hash)))
-        case HashObjectCommand.HashFile(files) =>
-          ZIO
-            .foreachPar(files)(file =>
-              hashByteStream(fileSystemPort.readFileBytes(file))
-            )
-            .map(hashes => HashObjectResult(hashes))
+  val live = ZLayer.fromFunction((fileSystemPort: FileSystemPort, objectRepository: ObjectRepository) =>
+    new HashObjectUseCase {
+      override def handleCommand(
+                                  hashObjectCommand: HashObjectCommand
+                                ): Task[HashObjectResult] =
+        hashObjectCommand match {
+          case HashObjectCommand.HashText(textToHash) =>
+            hashByteStream(ZStream.fromIterable(textToHash.getBytes(encoding)))
+              .map(hash => HashObjectResult(List(hash)))
+          case HashObjectCommand.HashFile(files, _) =>
+            ZIO
+              .foreachPar(files) { file =>
+                val bytes = fileSystemPort.readFileBytes(file)
+                for {
+                  hash <- hashByteStream(bytes)
+                  _ <- objectRepository.save(hash, bytes)
+                } yield hash
+              }
+              .map(hashes => HashObjectResult(hashes))
+        }
+
+      private def hashByteStream(byteStream: ZStream[Any, Throwable, Byte]) = {
+        for {
+          numberOfBytes <- byteStream.run(ZSink.count)
+          hash <-
+            ZStream
+              .fromIterable(providePrefixBytes(numberOfBytes))
+              .concat(byteStream)
+              .run(SinkExtension.sha1Sink)
+        } yield Hash(hash)
       }
 
-    private def hashByteStream(byteStream: ZStream[Any, Throwable, Byte]) = {
-      for {
-        numberOfBytes <- byteStream.run(ZSink.count)
-        hash <-
-          ZStream
-            .fromIterable(providePrefixBytes(numberOfBytes))
-            .concat(byteStream)
-            .run(SinkExtension.sha1Sink)
-      } yield hash
+      private def providePrefixBytes(length: Long) = {
+        val zeroByte = '\u0000'
+
+        s"blob $length$zeroByte".getBytes(encoding)
+      }
     }
-
-    private def providePrefixBytes(length: Long) = {
-      val zeroByte = '\u0000'
-
-      s"blob $length$zeroByte".getBytes(encoding)
-    }
-  }
-
-  val live = ZLayer.fromFunction((fileSystemPort: FileSystemPort) =>
-    new HashObjectUseCaseImplementation(fileSystemPort)
   )
 
 }
