@@ -58,14 +58,14 @@ Implementation of a subset of git features
 
 ![Hexagonal diagram](https://github.com/Dnomyar/git/tree/main/diagram/git-hexagon.png)
 
-### [:tv: Episode 7: Write a blob]()
+### [:tv: Episode 7: Mock Object repository](https://www.youtube.com/watch?v=ImlxtuG0mHo&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=7)
 [Branch `episode7`](https://github.com/Dnomyar/git/tree/episode7)
 - [Business Logic] write a blob in git objects directory
-  - create an ObjectRepository 
+  - create an ObjectRepository
   - write a test for HashObjectUseCase verifying that the repository is called
-  - create the implementation for the repository and test
 
-Next:
+### Next:
+- create the implementation for the repository and test
 - [Business Logic] write a tree in git object directory
 - [Business Logic] write a commit (with a tree hash provided)
 
