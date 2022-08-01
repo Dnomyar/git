@@ -4,7 +4,7 @@ import git.domain.model.Hash
 import zio.stream.ZStream
 import zio.{IO, Task}
 
-trait ObjectRepositoryError extends Throwable
+case class ObjectRepositoryError(message:String, throwable: Throwable) extends Throwable(message, throwable)
 
 trait ObjectRepository {
 

@@ -36,7 +36,7 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
               .provide(
                 ZLayer.succeed[FileSystemPort]((_: FileIdentifier) => ???),
                 ZLayer.succeed[ObjectRepository](new ObjectRepository{
-                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ???
+                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ZIO.unit
                 }),
                 HashObjectUseCase.live
               )
@@ -54,13 +54,13 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
                   ZStream.fromIterable(input.getBytes(encoding))
                 ),
                 ZLayer.succeed[ObjectRepository](new ObjectRepository{
-                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ???
+                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ZIO.unit
                 }),
                 HashObjectUseCase.live
               )
           },
           test(
-            "should call the object repository when spefied for the command HashFile"
+            s"should call the object repository when specified for the command HashFile - for file content $input"
           ) {
             val fileMap = Map(
               FileIdentifier("input") -> ZStream.fromIterable(input.getBytes(encoding)),
@@ -84,15 +84,15 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
               )
               objectRepositoryMockEvents <- registry.get
             } yield assert(objectRepositoryMockEvents)(
-              equalTo(
+              hasSameElements(
                 Vector(
                   ObjectRepositoryMockEvent.Save(
                     Hash(expectedHash),
-                    ZStream.fromIterable(input.getBytes(encoding))
+                    Chunk.from(input.getBytes(encoding))
                   ),
                   ObjectRepositoryMockEvent.Save(
                     Hash("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"),
-                    ZStream.fromIterable(List.empty)
+                    Chunk.from(List.empty)
                   )
                 )
               )

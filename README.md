@@ -58,14 +58,23 @@ Implementation of a subset of git features
 
 ![Hexagonal diagram](https://github.com/Dnomyar/git/tree/main/diagram/git-hexagon.png)
 
-### [:tv: Episode 7: Mock Object repository](https://www.youtube.com/watch?v=ImlxtuG0mHo&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=7)
+### [:tv: Episode 7: Mock Object repository -- Part 1](https://www.youtube.com/watch?v=ImlxtuG0mHo&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=7)
 [Branch `episode7`](https://github.com/Dnomyar/git/tree/episode7)
 - [Business Logic] write a blob in git objects directory
-  - create an ObjectRepository
-  - write a test for HashObjectUseCase verifying that the repository is called
+  - [x] create an ObjectRepository
+  - [/] write a test for HashObjectUseCase verifying that the repository is called
+
+
+### [:tv: Episode 8: Mock Object repository -- Part 2]()
+[Branch `episode8`](https://github.com/Dnomyar/git/tree/episode8)
+- [Business Logic] write a blob in git objects directory
+  - [x] create an ObjectRepository
+  - [/] write a test for HashObjectUseCase verifying that the repository is called
+  - [ ] create the implementation for the repository and test
+    - what to test? we are looking to test compatibility with Git: right place, right format
+
 
 ### Next:
-- create the implementation for the repository and test
 - [Business Logic] write a tree in git object directory
 - [Business Logic] write a commit (with a tree hash provided)
 
@@ -77,6 +86,8 @@ Implementation of a subset of git features
 ### Objects
 
 Source: https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain 
+
+#### Types of objects
 
 Git uses the concept of _Object_. There 3 types of object:
 - **blobs**. A blob basically represents the content of a file. It is stored in a file named after the hash of the content.   
@@ -96,9 +107,17 @@ Git uses the concept of _Object_. There 3 types of object:
     - a blank line
     - the commit `message`
 
-Those files are stored in `.git/objects`.
+#### How object are stored in the object repository
+##### Prefixed by the first two characters of the hash
+Those files are stored in `.git/objects`. Each file representing either `blob`s, `tree`s or `commit`s, are stored within directory named after the first two characters of the hexadecimal hash. For the hash `dc711f442241823069c499197accce1537f30928` will be stored the in folder `.git/objects/dc`.
 
-Useful git commands:
+The filename is the hash without the first two letters. For the hash `dc711f442241823069c499197accce1537f30928`, the filename will be `711f442241823069c499197accce1537f30928` -- note that the prefix `dc` has been removed here. The file corresponding to the hash `dc711f442241823069c499197accce1537f30928` would be `.git/objects/dc/711f442241823069c499197accce1537f30928`.
+
+##### Zipped using ZLib
+ZLib is a C library used for data compression. It only supports one algorithm: DEFLATE (also used in the zip archive format). This algorithm is widely used.
+
+
+#### Useful git commands:
 - `git cat-file` show information about an object
     - `-p <hash>` show the content of an object. `hash` can be `master^{tree}` to reference the tree object pointed to the last version of master.
     - `-t <hash>` show the type of object
@@ -107,6 +126,7 @@ Useful git commands:
 - `git write-tree` 
 - `git ls-files`
   - `--stage` or `-s` show all files tracked
+- `zlib-flate -uncompress < .git/objects/18/7fbaf52b4fdebd0111740829df5b51edc8b029` other program that deflates files
 
 
 
