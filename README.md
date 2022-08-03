@@ -65,7 +65,7 @@ Implementation of a subset of git features
   - [/] write a test for HashObjectUseCase verifying that the repository is called
 
 
-### [:tv: Episode 8: Mock Object repository -- Part 2]()
+### [:tv: Episode 8: Mock Object repository -- Part 2](https://www.youtube.com/watch?v=ufIlLF9G_FY&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=8)
 [Branch `episode8`](https://github.com/Dnomyar/git/tree/episode8)
 - [Business Logic] write a blob in git objects directory
   - [x] create an ObjectRepository
