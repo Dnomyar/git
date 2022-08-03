@@ -69,12 +69,17 @@ Implementation of a subset of git features
 [Branch `episode8`](https://github.com/Dnomyar/git/tree/episode8)
 - [Business Logic] write a blob in git objects directory
   - [x] create an ObjectRepository
-  - [/] write a test for HashObjectUseCase verifying that the repository is called
-  - [ ] create the implementation for the repository and test
+  - [x] write a test for HashObjectUseCase verifying that the repository is called
+  - [/] create the implementation for the repository and test
     - what to test? we are looking to test compatibility with Git: right place, right format
 
 
 ### Next:
+- Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
+- Test missing: not call the repository when the save option is false
+- Refactor the ObjectRepositoryFileSystemSpec to generate a single hash to avoid a "cache" issue.
+- add an extension method to hash to have both prefix (two first hash characters) and filename (rest of the hash)
+- use a more specific type than string for dealing with files 
 - [Business Logic] write a tree in git object directory
 - [Business Logic] write a commit (with a tree hash provided)
 
