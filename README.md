@@ -58,14 +58,14 @@ Implementation of a subset of git features
 
 ![Hexagonal diagram](https://github.com/Dnomyar/git/tree/main/diagram/git-hexagon.png)
 
-### [:tv: Episode 7: Mock Object repository -- Part 1](https://www.youtube.com/watch?v=ImlxtuG0mHo&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=7)
+### [:tv: Episode 7: Mock Object repository Part 1 - the repository should be called in the use case](https://www.youtube.com/watch?v=ImlxtuG0mHo&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=7)
 [Branch `episode7`](https://github.com/Dnomyar/git/tree/episode7)
 - [Business Logic] write a blob in git objects directory
   - [x] create an ObjectRepository
   - [/] write a test for HashObjectUseCase verifying that the repository is called
 
 
-### [:tv: Episode 8: Mock Object repository -- Part 2](https://www.youtube.com/watch?v=ufIlLF9G_FY&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=8)
+### [:tv: Episode 8: Mock Object repository Part 2 - ObjectRepositoryFileSystemSpec](https://www.youtube.com/watch?v=ufIlLF9G_FY&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=8)
 [Branch `episode8`](https://github.com/Dnomyar/git/tree/episode8)
 - [Business Logic] write a blob in git objects directory
   - [x] create an ObjectRepository
