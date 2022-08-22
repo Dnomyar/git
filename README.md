@@ -73,7 +73,7 @@ Implementation of a subset of git features
   - [/] create the implementation for the repository and test
     - what to test? we are looking to test compatibility with Git: right place, right format
 
-### [:tv: Episode 9: ](https://www.youtube.com/watch?v=ej3nw9KJVB0&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=9)
+### [:tv: Episode 9: Implementation of ObjectRepositoryFileSystem](https://www.youtube.com/watch?v=ej3nw9KJVB0&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=9)
 [Branch `episode9`](https://github.com/Dnomyar/git/tree/episode9)
 - [Business Logic] write a blob in git objects directory
   - Object Repository File System
