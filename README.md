@@ -73,13 +73,19 @@ Implementation of a subset of git features
   - [/] create the implementation for the repository and test
     - what to test? we are looking to test compatibility with Git: right place, right format
 
+### [:tv: Episode 9: ]()
+[Branch `episode9`](https://github.com/Dnomyar/git/tree/episode9)
+- [Business Logic] write a blob in git objects directory
+  - Object Repository File System
+    - Refactor the ObjectRepositoryFileSystemSpec to generate a single hash to avoid a "cache" issue.
+    - Implement Object Repository File System
 
 ### Next:
 - Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
 - Test missing: not call the repository when the save option is false
-- Refactor the ObjectRepositoryFileSystemSpec to generate a single hash to avoid a "cache" issue.
-- add an extension method to hash to have both prefix (two first hash characters) and filename (rest of the hash)
-- use a more specific type than string for dealing with files 
+- refactor main to extract the parsing and the formatting part
+- refactor the MainSpec to separate the concerns
+- use a more specific type than string for dealing with files
 - [Business Logic] write a tree in git object directory
 - [Business Logic] write a commit (with a tree hash provided)
 
