@@ -3,7 +3,7 @@ package git.domain.usecase
 import git.domain.model.*
 import git.domain.port.FileSystemPort
 import git.domain.usecase.HashObjectUseCase
-import git.domain.usecase.HashObjectUseCase.*
+import git.domain.usecase.HashObjectUseCase.{encoding, *}
 import git.domain.repository.{ObjectRepository, ObjectRepositoryError}
 import git.infrastructure.ObjectRepositoryMock
 import git.infrastructure.ObjectRepositoryMock.*
@@ -32,11 +32,16 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
               hashObjectResult <- hashObjectUseCase.handleCommand(
                 HashObjectCommand.HashText(textToHash = input)
               )
-            } yield assert(hashObjectResult.hash)(equalTo(List(Hash(expectedHash)))))
+            } yield assert(hashObjectResult.hash)(
+              equalTo(List(Hash(expectedHash)))
+            ))
               .provide(
                 ZLayer.succeed[FileSystemPort]((_: FileIdentifier) => ???),
-                ZLayer.succeed[ObjectRepository](new ObjectRepository{
-                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ZIO.unit
+                ZLayer.succeed[ObjectRepository](new ObjectRepository {
+                  override def save(
+                      hash: Hash,
+                      byteStream: ZStream[Any, Throwable, Byte]
+                  ): IO[ObjectRepositoryError, Unit] = ZIO.unit
                 }),
                 HashObjectUseCase.live
               )
@@ -48,13 +53,18 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
               hashObjectResult <- hashObjectUseCase.handleCommand(
                 HashObjectCommand.HashFile(filenames = List(FileIdentifier("")))
               )
-            } yield assert(hashObjectResult.hash)(equalTo(List(Hash(expectedHash)))))
+            } yield assert(hashObjectResult.hash)(
+              equalTo(List(Hash(expectedHash)))
+            ))
               .provide(
                 ZLayer.succeed[FileSystemPort]((_: FileIdentifier) =>
                   ZStream.fromIterable(input.getBytes(encoding))
                 ),
-                ZLayer.succeed[ObjectRepository](new ObjectRepository{
-                  override def save(hash: Hash, byteStream: ZStream[Any, Throwable, Byte]): IO[ObjectRepositoryError, Unit] = ZIO.unit
+                ZLayer.succeed[ObjectRepository](new ObjectRepository {
+                  override def save(
+                      hash: Hash,
+                      byteStream: ZStream[Any, Throwable, Byte]
+                  ): IO[ObjectRepositoryError, Unit] = ZIO.unit
                 }),
                 HashObjectUseCase.live
               )
@@ -63,22 +73,27 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
             s"should call the object repository when specified for the command HashFile - for file content $input"
           ) {
             val fileMap = Map(
-              FileIdentifier("input") -> ZStream.fromIterable(input.getBytes(encoding)),
-              FileIdentifier("empty") -> ZStream.fromIterable(List.empty),
+              FileIdentifier("input") -> ZStream.fromIterable(
+                input.getBytes(encoding)
+              ),
+              FileIdentifier("empty") -> ZStream.fromIterable(List.empty)
             )
             for {
               registry <- ObjectRepositoryMock.initRegistry
               hashObjectUseCase <- ZIO
                 .service[HashObjectUseCase.HashObjectUseCase]
                 .provide(
-                  ZLayer.succeed[FileSystemPort]((file: FileIdentifier) => fileMap(file)),
+                  ZLayer.succeed[FileSystemPort]((file: FileIdentifier) =>
+                    fileMap(file)
+                  ),
                   ObjectRepositoryMock.objectRepository(registry),
                   HashObjectUseCase.live
                 )
 
               hashObjectResult <- hashObjectUseCase.handleCommand(
                 HashObjectCommand.HashFile(
-                  filenames = List(FileIdentifier("input"), FileIdentifier("empty")),
+                  filenames =
+                    List(FileIdentifier("input"), FileIdentifier("empty")),
                   save = true
                 )
               )
@@ -88,19 +103,36 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
                 Vector(
                   ObjectRepositoryMockEvent.Save(
                     Hash(expectedHash),
-                    Chunk.from(input.getBytes(encoding))
+                    Chunk
+                      .from(
+                        input.getBytes(encoding)
+                      )
+                      .prefixWithBlobSizeAndZeroByte
                   ),
                   ObjectRepositoryMockEvent.Save(
                     Hash("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"),
-                    Chunk.from(List.empty)
+                    Chunk.from(List.empty).prefixWithBlobSizeAndZeroByte
                   )
                 )
               )
             ) && assert(hashObjectResult.hash)(
-              equalTo(List(Hash(expectedHash), Hash("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391")))
+              equalTo(
+                List(
+                  Hash(expectedHash),
+                  Hash("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391")
+                )
+              )
             )
           }
         )
       }
     )
+
+  extension (chunk: Chunk[Byte]) {
+    private def prefixWithBlobSizeAndZeroByte: Chunk[Byte] = {
+      val zeroByte = '\u0000'
+      val length = chunk.length
+      Chunk.from(s"blob $length$zeroByte".getBytes(encoding)) ++ chunk
+    }
+  }
 }
