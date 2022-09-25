@@ -80,7 +80,7 @@ Implementation of a subset of git features
     - Refactor the ObjectRepositoryFileSystemSpec to generate a single hash to avoid a "cache" issue.
     - Implement Object Repository File System
 
-### [:tv: Episode 10: ]()
+### [:tv: Episode 10: HashObjectUseCase is not calling the ObjectRepository with the right value](https://www.youtube.com/watch?v=VV27JwXoGr4&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=10)
 [Branch `episode10`](https://github.com/Dnomyar/git/tree/episode10)
 - Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
 
