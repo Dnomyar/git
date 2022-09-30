@@ -39,14 +39,16 @@ object HashObjectUseCase {
                 .map { case (hash, _) =>
                   HashObjectResult(List(hash))
                 }
-            case HashObjectCommand.HashFile(files, _) =>
+            case HashObjectCommand.HashFile(files, shouldSave) =>
               ZIO
                 .foreachPar(files) { file =>
                   val bytes = fileSystemPort.readFileBytes(file)
                   for {
                     hashAndPrefixedStream <- hashByteStream(bytes)
                     (hash, prefixedStream) = hashAndPrefixedStream
-                    _ <- objectRepository.save(hash, prefixedStream)
+                    _ <- ZIO.when(shouldSave)(
+                      objectRepository.save(hash, prefixedStream)
+                    )
                   } yield hash
                 }
                 .map(hashes => HashObjectResult(hashes))

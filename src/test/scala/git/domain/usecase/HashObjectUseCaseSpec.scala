@@ -123,6 +123,35 @@ object HashObjectUseCaseSpec extends ZIOSpecDefault {
                 )
               )
             )
+          },
+          test(
+            "should not call the object repository if the hash file command is not specifying it"
+          ) {
+            val fileMap = Map(
+              FileIdentifier("input") -> ZStream.fromIterable(
+                input.getBytes(encoding)
+              )
+            )
+            for {
+              registry <- ObjectRepositoryMock.initRegistry
+              hashObjectUseCase <- ZIO
+                .service[HashObjectUseCase.HashObjectUseCase]
+                .provide(
+                  ZLayer.succeed[FileSystemPort]((file: FileIdentifier) =>
+                    fileMap(file)
+                  ),
+                  ObjectRepositoryMock.objectRepository(registry),
+                  HashObjectUseCase.live
+                )
+
+              hashObjectResult <- hashObjectUseCase.handleCommand(
+                HashObjectCommand.HashFile(
+                  filenames = List(FileIdentifier("input")),
+                  save = false
+                )
+              )
+              objectRepositoryMockEvents <- registry.get
+            } yield assert(objectRepositoryMockEvents)(isEmpty)
           }
         )
       }

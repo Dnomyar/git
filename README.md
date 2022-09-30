@@ -85,9 +85,13 @@ Implementation of a subset of git features
 - Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
 
 
+### [:tv: Episode 11: ]()
+[Branch `episode11`](https://github.com/Dnomyar/git/tree/episode11)
+- Put things together: hash and save a blob from the app and try to read it with git
+  - Test missing: not call the repository when the save option is false 
+  - refactor main to extract the parsing and the formatting part
+
 ### Next:
-- Test missing: not call the repository when the save option is false
-- refactor main to extract the parsing and the formatting part
 - refactor the MainSpec to separate the concerns
 - use a more specific type than string for dealing with files
 - [Business Logic] write a tree in git object directory
