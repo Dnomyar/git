@@ -85,7 +85,7 @@ Implementation of a subset of git features
 - Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
 
 
-### [:tv: Episode 11: ]()
+### [:tv: Episode 11: 1st milestone! Writing a git object and read it back with git](https://www.youtube.com/watch?v=A7e4ieruq-w&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=11)
 [Branch `episode11`](https://github.com/Dnomyar/git/tree/episode11)
 - Put things together: hash and save a blob from the app and try to read it with git
   - Test missing: not call the repository when the save option is false 
