@@ -84,27 +84,32 @@ Implementation of a subset of git features
 [Branch `episode10`](https://github.com/Dnomyar/git/tree/episode10)
 - Check that hash object use case is calling the object repository with the right value (with the blob + size prefix)
 
-
 ### [:tv: Episode 11: 1st milestone! Writing a git object and read it back with git](https://www.youtube.com/watch?v=A7e4ieruq-w&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=11)
 [Branch `episode11`](https://github.com/Dnomyar/git/tree/episode11)
 - Put things together: hash and save a blob from the app and try to read it with git
-  - Test missing: not call the repository when the save option is false 
+  - Test missing: not call the repository when the save option is false
   - refactor main to extract the parsing and the formatting part
 
+### Chapter 2: Saving the current tree
+
+### [:tv: Episode 12: ]()
+[Branch `episode12`](https://github.com/Dnomyar/git/tree/episode12)
+- [Business Logic] read and write git index file
+  - read the git index file
+
+
 ### Next:
+- [Business Logic] write a tree in git object directory
 - refactor the MainSpec to separate the concerns
 - use a more specific type than string for dealing with files
 - [Business Logic] write a tree in git object directory
 - [Business Logic] write a commit (with a tree hash provided)
 
 
-
-
-
 ## Git internals
 ### Objects
 
-Source: https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain 
+Source: https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelaigitn 
 
 #### Types of objects
 
@@ -118,6 +123,12 @@ Git uses the concept of _Object_. There 3 types of object:
 040000 tree 8bac5f27882165d313f5732bb4f140003156c693    project
 040000 tree 163727ec9bd17ef32ee088a52a31fe0b483fa18f    src
 ```
+  - there are different types of files: 
+    - `100644` is a normal file, 
+    - `100755` is an executable file, 
+    - `120000` for symbolic links,
+    - `040000` for tree
+    - `160000` for sub-modules
 - **commits**. Commits are used to capture :
     - the `tree` snapshot of the code
     - the `parent(s)` commits. Usually a commit has only one parent, but it can have 0 to n parents. The first commit does not have any parent. A merge commit has several parents (usually 2). 
@@ -135,14 +146,18 @@ The filename is the hash without the first two letters. For the hash `dc711f4422
 ##### Zipped using ZLib
 ZLib is a C library used for data compression. It only supports one algorithm: DEFLATE (also used in the zip archive format). This algorithm is widely used.
 
+### Git index
+https://git-scm.com/docs/index-format
 
-#### Useful git commands:
+
+
+### Useful git commands:
 - `git cat-file` show information about an object
     - `-p <hash>` show the content of an object. `hash` can be `master^{tree}` to reference the tree object pointed to the last version of master.
     - `-t <hash>` show the type of object
 - `git hash-object` (explicit)
 - `git update-index` Register file contents in the working tree to the index
-- `git write-tree` 
+- `git write-tree` writes the staging area to a tree object
 - `git ls-files`
   - `--stage` or `-s` show all files tracked
 - `zlib-flate -uncompress < .git/objects/18/7fbaf52b4fdebd0111740829df5b51edc8b029` other program that deflates files
@@ -156,3 +171,4 @@ ZLib is a C library used for data compression. It only supports one algorithm: D
 - https://git-scm.com/docs/gitglossary
 - https://github.com/git/git/blob/master/Documentation/technical/index-format.txt
 - https://git-scm.com/book/en/v2/Git-Internals-Packfiles
+- Good explanations about the format of git tree https://stackoverflow.com/questions/14790681/what-is-the-internal-format-of-a-git-tree-object
