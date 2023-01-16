@@ -97,10 +97,11 @@ Implementation of a subset of git features
 - [Business Logic] read and write git index file
   - read the git index file
 
-### [:tv: Episode 13: ]()
+### [:tv: Episode 13: Structure the code via case classes]()
 [Branch `episode13`](https://github.com/Dnomyar/git/tree/episode13)
 - [Business Logic] read and write git index file
-  - read the git index file
+  - create a dummy index file and read it
+  - refactor the code to use case classes
 
 
 ### Next:
