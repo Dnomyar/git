@@ -14,14 +14,19 @@ object IndexFileCodecsSpec extends ZIOSpecDefault {
         fileBytes <- ZStream
           .fromFileName("src/test/resources/index-file-simple-1")
           .runCollect
-        _ = {
+        headersAndEntry = fileBytes.take(83)
+        result = {
           import scodec.*
           import scodec.bits.*
           import scodec.codecs.*
           val flags: Codec[Flags] = (("assume-valid" | bool) ::
             ("extended" | bool) ::
             ("stage" | (bool :: bool)) ::
-            ("name-length" | uint(12))).xmap(Flags(_, _, _, _), _ => ???)
+            ("name-length" | uint(12))).xmap(
+            Flags(_, _, _, _),
+            flags =>
+              (flags.assumeValid, flags.extended, flags.stage, flags.nameLength)
+          )
 
           val codexEntry: Codec[Entry] = (("ctime-seconds" | uint32) ::
             ("ctime-nanosecond-fractions" | uint32) ::
@@ -70,32 +75,61 @@ object IndexFileCodecsSpec extends ZIOSpecDefault {
                       flags,
                       path
                     ),
-                  _ => ???
+                  entry => entry.name
                 )
               }
-            )(_ => ???)
+            ) {
+              case Entry(
+                    ctimeSeconds,
+                    ctimeNanosecondFractions,
+                    mtimeSeconds,
+                    mtimeNanosecondFractions,
+                    dev,
+                    ino,
+                    mode,
+                    uid,
+                    gid,
+                    size,
+                    sha1,
+                    flags,
+                    _
+                  ) =>
+                (
+                  ctimeSeconds,
+                  ctimeNanosecondFractions,
+                  mtimeSeconds,
+                  mtimeNanosecondFractions,
+                  dev,
+                  ino,
+                  mode,
+                  uid,
+                  gid,
+                  size,
+                  ByteVector(sha1),
+                  flags
+                )
+            }
 
           val headerCodec: Codec[Index] = {
             (("header.signature" | constant(BitVector("DIRC".getBytes))) ~>
               ("header.version" | uint32) ::
-              ("number-of-entries" | uint32)).flatZip[Entry](
-              (version, numberOfEntries) => codexEntry
+              ("number-of-entries" | uint32)).flatZip[Entry]((_, _) =>
+              codexEntry
             )
           }.xmap[Index](
             { case ((version, _), entry) => Index(version, List(entry)) },
-            _ => ???
+            { case Index(version, entries) =>
+              ((version, entries.size), entries.head)
+            }
           )
 
-          println(
-            headerCodec
-              .decode(
-                BitVector(fileBytes.toArray)
-              )
-//              .require
-//              .value
-          )
+          val reencoded: Attempt[BitVector] = for {
+            decoded <- headerCodec.decode(BitVector(headersAndEntry))
+            reencoded <- headerCodec.encode(decoded.value)
+          } yield reencoded
+          reencoded.require.toByteArray
         }
-      } yield assert(true)(isTrue)
+      } yield assert(headersAndEntry.toArray)(equalTo(result))
     }
 
 }
