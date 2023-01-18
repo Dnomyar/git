@@ -11,8 +11,8 @@ import zio.test.Assertion.*
 import java.math.BigInteger
 
 object IndexFileCodecsSpec extends ZIOSpecDefault {
-  override def spec: Spec[Any, Any] =
-    test("decode a simple index file") {
+  override def spec: Spec[Any, Any] = 
+    test("decode and re-encode a simple index file") {
       for {
         fileBytes <- ZStream
           .fromFileName("src/test/resources/index-file-simple-1")
