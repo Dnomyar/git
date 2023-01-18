@@ -1,5 +1,6 @@
 package git
 
+import git.domain.model.index.*
 import zio.stream.ZStream
 import zio.test.*
 import zio.test.Assertion.*
@@ -17,27 +18,6 @@ object IndexFileCodecsSpec extends ZIOSpecDefault {
           import scodec.*
           import scodec.bits.*
           import scodec.codecs.*
-          case class Flags(
-              assumeValid: Boolean,
-              extended: Boolean,
-              stage: (Boolean, Boolean),
-              nameLength: Int
-          )
-          case class Entry(
-              ctime: Long,
-              ctimeNanoseconds: Long,
-              mtime: Long,
-              mtimeNanoseconds: Long,
-              dev: Long,
-              ino: Long,
-              mode: Long,
-              uid: Long,
-              gid: Long,
-              size: Long,
-              sha: Array[Byte],
-              flags: Flags,
-              name: String
-          )
           val flags: Codec[Flags] = (("assume-valid" | bool) ::
             ("extended" | bool) ::
             ("stage" | (bool :: bool)) ::
@@ -92,16 +72,19 @@ object IndexFileCodecsSpec extends ZIOSpecDefault {
                     ),
                   _ => ???
                 )
-              },
-            )( _ => ???)
+              }
+            )(_ => ???)
 
-          val headerCodec = {
-            (("header.signature" | constant(BitVector("DIRC".getBytes))) ::
+          val headerCodec: Codec[Index] = {
+            (("header.signature" | constant(BitVector("DIRC".getBytes))) ~>
               ("header.version" | uint32) ::
               ("number-of-entries" | uint32)).flatZip[Entry](
-              (_, version, numberOfEntries) => codexEntry
+              (version, numberOfEntries) => codexEntry
             )
-          }
+          }.xmap[Index](
+            { case ((version, _), entry) => Index(version, List(entry)) },
+            _ => ???
+          )
 
           println(
             headerCodec

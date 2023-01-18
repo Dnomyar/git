@@ -103,6 +103,11 @@ Implementation of a subset of git features
   - create a dummy index file and read it
   - refactor the code to use case classes
 
+### [:tv: Episode 14: ]()
+[Branch `episode14`](https://github.com/Dnomyar/git/tree/episode14)
+- [Business Logic] read and write git index file
+  - productionize the code
+
 
 ### Next:
 - [Business Logic] write a tree in git object directory
