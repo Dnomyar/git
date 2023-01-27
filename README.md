@@ -92,7 +92,7 @@ Implementation of a subset of git features
 
 ### Chapter 2: Saving the current tree
 
-### [:tv: Episode 12: ]()
+### [:tv: Episode 12: Exploring git index binary format with #scodec #scala3](https://www.youtube.com/watch?v=x8EqqshhiJ0&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=12)
 [Branch `episode12`](https://github.com/Dnomyar/git/tree/episode12)
 - [Business Logic] read and write git index file
   - read the git index file
