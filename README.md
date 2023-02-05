@@ -92,10 +92,17 @@ Implementation of a subset of git features
 
 ### Chapter 2: Saving the current tree
 
+<<<<<<< HEAD
 ### [:tv: Episode 12: Exploring git index binary format with #scodec #scala3](https://www.youtube.com/watch?v=x8EqqshhiJ0&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=12)
 [Branch `episode12`](https://github.com/Dnomyar/git/tree/episode12)
 - [Business Logic] read and write git index file
   - read the git index file
+
+### [:tv: Episode 13: Structure the code via case classes](https://www.youtube.com/watch?v=7uTly3g2jWU&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=13)
+[Branch `episode13`](https://github.com/Dnomyar/git/tree/episode13)
+- [Business Logic] read and write git index file
+  - create a dummy index file and read it
+  - refactor the code to use case classes
 
 
 ### Next:
