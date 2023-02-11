@@ -103,11 +103,10 @@ Implementation of a subset of git features
   - create a dummy index file and read it
   - refactor the code to use case classes
 
-### [:tv: Episode 14: ]()
+### [:tv: Episode 14: Productionization of the git index parse code #scodec #scala3 (part 1)](https://www.youtube.com/watch?v=kNlowtZydQM&list=PLhevSyucCuqH4--MqzA7q6kcgmOzPaU7G&index=14)
 [Branch `episode14`](https://github.com/Dnomyar/git/tree/episode14)
 - [Business Logic] read and write git index file
   - productionize the code
-
 
 ### Next:
 - [Business Logic] write a tree in git object directory
